@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RF Signal Analyzer | Engineering Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .detail-page {
+      max-width: 900px;
+      margin: 70px auto;
+      padding: 0 24px 80px;
+    }
+
+    .back-link {
+      color: #e6c46b;
+      text-decoration: none;
+    }
+
+    .detail-page h1 {
+      margin: 24px 0 12px;
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    .detail-page h2 {
+      margin-top: 42px;
+      margin-bottom: 14px;
+      color: #e6c46b;
+    }
+
+    .detail-page p,
+    .detail-page li {
+      line-height: 1.8;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 35px;
+    }
+
+    .project-tags span {
+      padding: 7px 12px;
+      background: #25293b;
+      border-radius: 20px;
+      color: #e6c46b;
+      font-size: 0.85rem;
+    }
+
+    .project-panel {
+      background: #191d2e;
+      border: 1px solid #2b3047;
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .project-image {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="detail-page">
+    <a class="back-link" href="projects.html">
+      &larr; Back to Projects
+    </a>
+
+    <h1>RF Signal Analyzer</h1>
+
+    <p>
+      A Raspberry Pi-based software-defined radio project
+      for capturing and analyzing real-world RF signals.
+    </p>
+
+    <div class="project-tags">
+      <span>Raspberry Pi 5</span>
+      <span>RTL-SDR</span>
+      <span>Python</span>
+      <span>NumPy</span>
+      <span>FFT</span>
+    </div>
+
+    <section>
+      <h2>Project Overview</h2>
+      <p>
+        I developed an RF Signal Analyzer using a
+        Raspberry Pi 5 and an RTL-SDR receiver.
+        The system captures radio-frequency data,
+        processes complex IQ samples in Python,
+        and visualizes the frequency spectrum.
+      </p>
+    </section>
+
+    <section>
+      <h2>Hardware and Software</h2>
+      <div class="project-panel">
+        <ul>
+          <li>Raspberry Pi 5</li>
+          <li>Nooelec NESDR SMArt v5 RTL-SDR</li>
+          <li>RTL-SDR antenna</li>
+          <li>Python</li>
+          <li>NumPy and Matplotlib</li>
+          <li>Linux command-line tools</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>How It Works</h2>
+      <p>
+        The RTL-SDR captures raw in-phase and quadrature
+        (IQ) samples from a selected radio-frequency band.
+        Python converts the captured samples into complex
+        numbers and applies a Fast Fourier Transform (FFT)
+        to analyze the signal's frequency components.
+      </p>
+      <p>
+        The analyzer then generates a frequency-spectrum
+        plot and identifies the strongest frequency
+        component within the capture.
+      </p>
+    </section>
+
+    <section>
+      <h2>Project Results</h2>
+      <div class="project-panel">
+        <p>
+          In a capture centered at 102 MHz, the analyzer
+          identified its strongest frequency component
+          near 101.53 MHz.
+        </p>
+        <p>
+          The measured peak was approximately 49.33 dB
+          above the average plotted magnitude.
+          These values are relative FFT measurements,
+          not calibrated received power.
+        </p>
+        <p>
+          Spectrum visualization:
+          image will be added here.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Engineering Challenges</h2>
+      <p>
+        This project involved configuring the SDR,
+        working with raw IQ data, interpreting FFT
+        output, and distinguishing potential receiver
+        artifacts from real RF signals.
+      </p>
+    </section>
+
+    <section>
+      <h2>What I Learned</h2>
+      <p>
+        I gained practical experience with Linux,
+        Python-based signal processing, SDR hardware,
+        FFT analysis, and debugging a system that
+        combines physical hardware with software.
+      </p>
+    </section>
+
+  </main>
+</body>
+</html>
