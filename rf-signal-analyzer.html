@@ -1,174 +1,257 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RF Signal Analyzer | Engineering Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
   <style>
-    .detail-page {
-      max-width: 900px;
-      margin: 70px auto;
-      padding: 0 24px 80px;
+    :root {
+      --bg: #0f1422; --surface: #161c2f; --border: #263050;
+      --text: #e8eaf2; --muted: #a6aec6; --accent: #e3c27a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.65;
+    }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+
+    .site-header { border-bottom: 1px solid var(--border); }
+    .site-nav {
+      max-width: 900px; margin: 0 auto; padding: 20px 24px;
+      display: flex; justify-content: space-between; gap: 28px;
+    }
+    .site-nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
+    .site-nav a:hover { color: var(--accent); }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 56px 24px 96px; }
+
+    .hero h1 {
+      margin: 0 0 12px; font-size: clamp(2rem, 4.5vw, 2.9rem);
+      font-weight: 600; line-height: 1.15; letter-spacing: -0.02em;
+    }
+    .hero p.lead { margin: 0 0 20px; max-width: 60ch; color: var(--muted); font-size: 1.15rem; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .tags li {
+      font-size: 0.85rem; color: var(--accent); border: 1px solid var(--border);
+      background: rgba(227, 194, 122, 0.08); padding: 2px 10px; border-radius: 999px;
     }
 
-    .back-link {
-      color: #e6c46b;
-      text-decoration: none;
-    }
+    section { margin-top: 56px; }
+    h2 { margin: 0 0 16px; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em; }
+    h3 { margin: 32px 0 12px; font-size: 1.1rem; font-weight: 600; }
+    p { margin: 0 0 16px; max-width: 68ch; color: var(--muted); }
+    ul.plain { margin: 0; padding-left: 20px; color: var(--muted); }
+    ul.plain li { margin-bottom: 6px; }
 
-    .detail-page h1 {
-      margin: 24px 0 12px;
-      font-size: clamp(2rem, 5vw, 3rem);
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .panel {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px;
     }
+    .panel h3 { margin-top: 0; }
 
-    .detail-page h2 {
-      margin-top: 42px;
-      margin-bottom: 14px;
-      color: #e6c46b;
-    }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 0.97rem; }
+    th, td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--text); font-weight: 600; }
+    td { color: var(--muted); }
+    tr:last-child td { border-bottom: 0; }
+    td.hit { color: var(--accent); font-weight: 500; }
 
-    .detail-page p,
-    .detail-page li {
-      line-height: 1.8;
-    }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .stat .value { display: block; font-size: 1.9rem; font-weight: 600; color: var(--accent); line-height: 1.2; }
+    .stat .label { color: var(--muted); font-size: 0.92rem; }
 
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 20px 0 35px;
+    .note {
+      border-left: 3px solid var(--accent); background: var(--surface);
+      border-radius: 0 12px 12px 0; padding: 18px 22px; margin-top: 24px;
     }
+    .note p { margin: 0 0 10px; color: var(--text); }
+    .note p:last-child { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
-    .project-tags span {
-      padding: 7px 12px;
-      background: #25293b;
-      border-radius: 20px;
-      color: #e6c46b;
-      font-size: 0.85rem;
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; }
+    .shot { margin: 0; }
+    .shot img {
+      display: block; width: 100%; height: auto; border-radius: 12px;
+      border: 1px solid var(--border); background: var(--surface);
     }
+    .shot figcaption { margin-top: 10px; font-size: 0.9rem; color: var(--muted); }
+    .shot .ph {
+      display: none; border: 1px dashed var(--border); border-radius: 12px;
+      padding: 56px 20px; text-align: center; color: var(--muted);
+      background: rgba(22, 28, 47, 0.5); font-size: 0.92rem;
+    }
+    .shot.missing .ph { display: block; }
+    .shot.wide { margin-top: 24px; }
+    .shot.wide img { background: #fff; }
 
-    .project-panel {
-      background: #191d2e;
-      border: 1px solid #2b3047;
-      border-radius: 14px;
-      padding: 24px;
-      margin-top: 24px;
-    }
-
-    .project-image {
-      width: 100%;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
+    @media (max-width: 480px) { .page { padding-top: 36px; } th, td { padding: 12px; } }
   </style>
 </head>
-
 <body>
-  <main class="detail-page">
-    <a class="back-link" href="projects.html">
-      &larr; Back to Projects
-    </a>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Main">
+      <a href="projects.html">&larr; Back to Projects</a>
+      <a href="index.html">Home</a>
+    </nav>
+  </header>
 
-    <h1>RF Signal Analyzer</h1>
-
-    <p>
-      A Raspberry Pi-based software-defined radio project
-      for capturing and analyzing real-world RF signals.
-    </p>
-
-    <div class="project-tags">
-      <span>Raspberry Pi 5</span>
-      <span>RTL-SDR</span>
-      <span>Python</span>
-      <span>NumPy</span>
-      <span>FFT</span>
-    </div>
+  <main class="page">
+    <header class="hero">
+      <h1>RF Signal Analyzer</h1>
+      <p class="lead">
+        A Raspberry Pi-based software-defined radio project for capturing and
+        analyzing real-world RF signals.
+      </p>
+      <ul class="tags" aria-label="Technologies">
+        <li>Raspberry Pi 5</li>
+        <li>RTL-SDR</li>
+        <li>Python</li>
+        <li>NumPy</li>
+        <li>FFT</li>
+      </ul>
+    </header>
 
     <section>
-      <h2>Project Overview</h2>
+      <h2>Project overview</h2>
       <p>
-        I developed an RF Signal Analyzer using a
-        Raspberry Pi 5 and an RTL-SDR receiver.
-        The system captures radio-frequency data,
-        processes complex IQ samples in Python,
-        and visualizes the frequency spectrum.
+        I developed an RF Signal Analyzer using a Raspberry Pi 5 and an RTL-SDR
+        receiver. The system captures radio-frequency data, processes complex IQ
+        samples in Python, and visualizes the frequency spectrum.
+      </p>
+      <p>
+        The RTL-SDR captures raw in-phase and quadrature (IQ) samples from a selected
+        band. Python converts them to complex numbers and applies a Fast Fourier
+        Transform (FFT) to find the signal's frequency components. The analyzer then
+        plots the spectrum and identifies the strongest component in the capture.
       </p>
     </section>
 
     <section>
-      <h2>Hardware and Software</h2>
-      <div class="project-panel">
-        <ul>
-          <li>Raspberry Pi 5</li>
-          <li>Nooelec NESDR SMArt v5 RTL-SDR</li>
-          <li>RTL-SDR antenna</li>
-          <li>Python</li>
-          <li>NumPy and Matplotlib</li>
-          <li>Linux command-line tools</li>
-        </ul>
+      <h2>Setup</h2>
+      <div class="specs">
+        <div class="panel">
+          <h3>Hardware</h3>
+          <ul class="plain">
+            <li>Raspberry Pi 5</li>
+            <li>Nooelec NESDR SMArt v5 RTL-SDR</li>
+            <li>RTL-SDR antenna</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Software</h3>
+          <ul class="plain">
+            <li>Python</li>
+            <li>NumPy and Matplotlib</li>
+            <li>Linux command-line tools</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Capture settings</h3>
+          <ul class="plain">
+            <li>Sample rate: 2.048 MS/s</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <figure class="shot">
+          <img src="images/setup.jpg" alt="Raspberry Pi 5 connected to an RTL-SDR receiver"
+               onerror="this.hidden=true;this.parentNode.classList.add('missing')">
+          <div class="ph">Add a photo of your full setup as images/setup.jpg</div>
+          <figcaption>Raspberry Pi 5 running the analyzer with the RTL-SDR attached.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="images/rtl-sdr.jpg" alt="Nooelec NESDR SMArt v5 RTL-SDR with antenna"
+               onerror="this.hidden=true;this.parentNode.classList.add('missing')">
+          <div class="ph">Add a photo of the RTL-SDR and antenna as images/rtl-sdr.jpg</div>
+          <figcaption>Nooelec NESDR SMArt v5 with antenna.</figcaption>
+        </figure>
       </div>
     </section>
 
     <section>
-      <h2>How It Works</h2>
+      <h2>Experimental results</h2>
       <p>
-        The RTL-SDR captures raw in-phase and quadrature
-        (IQ) samples from a selected radio-frequency band.
-        Python converts the captured samples into complex
-        numbers and applies a Fast Fourier Transform (FFT)
-        to analyze the signal's frequency components.
+        I ran the capture at two different center frequencies to check whether the
+        strongest peak followed the tuning or stayed at a fixed frequency.
       </p>
-      <p>
-        The analyzer then generates a frequency-spectrum
-        plot and identifies the strongest frequency
-        component within the capture.
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Experiment</th><th>Center frequency</th><th>Strongest peak</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>101.5 MHz</td><td class="hit">101.5 MHz</td></tr>
+            <tr><td>2</td><td>102.0 MHz</td><td class="hit">101.5 MHz</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top:16px">
+        The peak stayed near 101.5 MHz when the receiver was retuned to 102.0 MHz.
+        A fixed peak that doesn't follow the tuning is what an external signal looks
+        like, as opposed to a receiver artifact.
       </p>
+
+      <h3>Updated analysis (Experiment 2 capture)</h3>
+      <div class="stats">
+        <div class="stat"><span class="value">101.53 MHz</span><span class="label">Strongest peak</span></div>
+        <div class="stat"><span class="value">74.57 dB</span><span class="label">Peak magnitude</span></div>
+        <div class="stat"><span class="value">25.24 dB</span><span class="label">Average magnitude</span></div>
+        <div class="stat"><span class="value">49.33 dB</span><span class="label">Peak above average</span></div>
+      </div>
+
+      <figure class="shot wide">
+        <img src="images/spectrum.png" alt="Frequency spectrum showing a strong peak near 101.5 MHz"
+             onerror="this.hidden=true;this.parentNode.classList.add('missing')">
+        <div class="ph">Add your spectrum plot as images/spectrum.png</div>
+        <figcaption>Frequency spectrum from the capture centered at 102.0 MHz.</figcaption>
+      </figure>
     </section>
 
     <section>
-      <h2>Project Results</h2>
-      <div class="project-panel">
+      <h2>Conclusion</h2>
+      <div class="note">
         <p>
-          In a capture centered at 102 MHz, the analyzer
-          identified its strongest frequency component
-          near 101.53 MHz.
+          A strong RF signal was detected near 101.5 MHz across two different
+          receiver tuning frequencies.
         </p>
         <p>
-          The measured peak was approximately 49.33 dB
-          above the average plotted magnitude.
-          These values are relative FFT measurements,
-          not calibrated received power.
-        </p>
-        <p>
-          Spectrum visualization:
-          image will be added here.
+          The results are consistent with a possible FM broadcast signal, but its
+          source is not confirmed. Magnitude values are relative FFT measurements,
+          not calibrated dBm.
         </p>
       </div>
     </section>
 
     <section>
-      <h2>Engineering Challenges</h2>
+      <h2>Engineering challenges</h2>
       <p>
-        This project involved configuring the SDR,
-        working with raw IQ data, interpreting FFT
-        output, and distinguishing potential receiver
-        artifacts from real RF signals.
+        This project involved configuring the SDR, working with raw IQ data,
+        interpreting FFT output, and distinguishing potential receiver artifacts
+        from real RF signals.
       </p>
     </section>
 
     <section>
-      <h2>What I Learned</h2>
+      <h2>What I learned</h2>
       <p>
-        I gained practical experience with Linux,
-        Python-based signal processing, SDR hardware,
-        FFT analysis, and debugging a system that
-        combines physical hardware with software.
+        I gained practical experience with Linux, Python-based signal processing,
+        SDR hardware, FFT analysis, and debugging a system that combines physical
+        hardware with software.
       </p>
     </section>
-
   </main>
 </body>
 </html>
