@@ -91,6 +91,16 @@
     .skills { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
     .skills li { color: var(--text); border: 1px solid var(--border); background: var(--surface); padding: 4px 12px; border-radius: 999px; font-size: 0.9rem; }
 
+    /* Hero with graphic on the right. The .page > prefix beats any .hero rules in style.css */
+    .page > .hero.hero-split { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center; padding: 0; margin: 0; min-height: 0; border: 0; }
+    .hero-viz { margin: 0; padding: 16px 16px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+    .hero-viz svg { display: block; width: 100%; height: auto; font-family: inherit; }
+    .hero-viz figcaption { margin-top: 8px; font-size: 0.82rem; color: var(--muted); }
+    .trace { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.8s ease-out 0.2s forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @media (prefers-reduced-motion: reduce) { .trace { animation: none; stroke-dashoffset: 0; } }
+    @media (max-width: 800px) { .page > .hero.hero-split { grid-template-columns: 1fr; gap: 28px; } }
+
     @media (max-width: 480px) { .page { padding-top: 32px; } th, td { padding: 12px; } }
   </style>
 </head>
@@ -103,7 +113,8 @@
   </header>
 
   <main class="page">
-    <header class="hero">
+    <header class="hero hero-split">
+      <div class="hero-text">
       <h1>RF Signal Analyzer</h1>
       <p class="lead">
         A Raspberry Pi 5 and RTL-SDR spectrum analyzer, written in Python, that
@@ -122,6 +133,28 @@
         <a class="btn primary" href="https://github.com/eudiaz">View code on GitHub</a>
         <a class="btn ghost" href="#results">Jump to results</a>
       </div>
+      </div>
+      <figure class="hero-viz" aria-label="Illustrative spectrum showing a peak at 101.53 MHz away from the 102.0 MHz center">
+        <svg viewBox="0 0 480 300" role="img" aria-labelledby="viz-title">
+          <title id="viz-title">Illustrative spectrum: strong peak at 101.53 MHz, left of the 102.0 MHz center</title>
+          <g stroke="#263050" stroke-width="1">
+            <line x1="40" y1="20" x2="460" y2="20"/><line x1="40" y1="77.5" x2="460" y2="77.5"/>
+            <line x1="40" y1="135" x2="460" y2="135"/><line x1="40" y1="192.5" x2="460" y2="192.5"/>
+            <line x1="40" y1="250" x2="460" y2="250"/>
+          </g>
+          <line x1="250" y1="20" x2="250" y2="250" stroke="#a6aec6" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="256" y="36" fill="#a6aec6" font-size="11">center 102.0 MHz</text>
+          <path class="trace" d="M40 182 L43 186 L46 175 L49 188 L52 177 L55 181 L58 188 L61 178 L64 189 L67 180 L70 188 L73 188 L76 180 L79 171 L82 187 L85 184 L88 175 L91 168 L94 176 L97 181 L100 167 L103 189 L106 170 L109 183 L112 186 L115 187 L118 182 L121 171 L124 185 L127 175 L130 172 L133 175 L136 167 L139 173 L142 167 L145 134 L148 36 L151 129 L154 161 L157 161 L160 169 L163 176 L166 168 L169 172 L172 183 L175 176 L178 177 L181 169 L184 173 L187 183 L190 167 L193 187 L196 180 L199 172 L202 186 L205 178 L208 189 L211 174 L214 172 L217 176 L220 169 L223 182 L226 174 L229 176 L232 176 L235 179 L238 170 L241 168 L244 179 L247 174 L250 188 L253 173 L256 175 L259 167 L262 171 L265 183 L268 181 L271 174 L274 189 L277 179 L280 186 L283 187 L286 188 L289 172 L292 187 L295 184 L298 181 L301 170 L304 188 L307 179 L310 177 L313 169 L316 171 L319 170 L322 183 L325 180 L328 181 L331 169 L334 168 L337 186 L340 186 L343 184 L346 184 L349 178 L352 176 L355 184 L358 190 L361 180 L364 181 L367 177 L370 168 L373 174 L376 178 L379 175 L382 174 L385 188 L388 169 L391 172 L394 170 L397 171 L400 181 L403 180 L406 187 L409 175 L412 188 L415 188 L418 185 L421 186 L424 182 L427 188 L430 190 L433 186 L436 187 L439 181 L442 189 L445 170 L448 176 L451 186 L454 184 L457 182 L460 181" pathLength="1" fill="none" stroke="#e3c27a" stroke-width="1.6" stroke-linejoin="round"/>
+          <line x1="148" y1="36" x2="148" y2="250" stroke="#e3c27a" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>
+          <circle cx="148" cy="36" r="4" fill="#e3c27a"/>
+          <text x="158" y="40" fill="#e8eaf2" font-size="12" font-weight="600">101.53 MHz</text>
+          <text x="158" y="55" fill="#a6aec6" font-size="11">49 dB above average</text>
+          <g fill="#a6aec6" font-size="11" text-anchor="middle">
+            <text x="40" y="270">101.0</text><text x="250" y="270">102.0</text><text x="460" y="270">103.0 MHz</text>
+          </g>
+        </svg>
+        <figcaption>Illustrative trace built from the Experiment 2 values. The measured spectrum is below.</figcaption>
+      </figure>
     </header>
 
     <div class="summary">
